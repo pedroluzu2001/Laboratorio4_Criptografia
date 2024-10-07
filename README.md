@@ -283,5 +283,68 @@ Elliptic Curve Cryptography (ECC) is now used extensively within public key sign
 | C.4 | First we need to generate a private key with:<br> ```bash<br> openssl ecparam -list_curves<br> ``` | **Outline three curves supported:**<br>secp256k1: Commonly used in cryptocurrencies like Bitcoin, this curve is defined over a 256-bit prime field and is known for its efficiency in blockchain technology.<br>secp384r1: Defined by both NIST and SECG, it operates over a 384-bit prime field, providing a higher level of security due to its larger key size. It is used in various cryptographic applications.<br>prime256v1 (P-256 or secp256r1): Defined by several standards bodies, it is widely used in SSL/TLS for secure communication over the internet and operates over a 256-bit prime field. |
 | C.5 | Let's select two other curves:<br> ```bash<br> openssl ecparam -name secp128r1 -genkey -out priv.pem<br> openssl ecparam -in priv.pem -text -param_enc explicit -noout<br> openssl ecparam -name secp521r1 -genkey -out priv.pem<br> openssl ecparam -in priv.pem -text -param_enc explicit -noout<br> ``` | How do `secp128r1`, `secp256k1`, and `secp521r1` differ in the parameters used?<br> Perhaps identify the length of the prime number used, and the size of the base point \( G \) and the prime number.How does the name of the curve relate to the prime number size?<br>The key differences between the curves secp128k1, secp256k1, and secp521r1 lie in their field size (prime number size), coefficients, base point (G), and prime order (n). The field size directly corresponds to the name of the curve, with secp128k1 using a 128-bit field, secp256k1 using a 256-bit field, and secp521r1 using a 521-bit field. Larger prime numbers provide higher security, but require more computational resources. The base point G and prime order n differ in each curve, with secp521r1 offering the highest security due to its larger field size, while secp256k1 is commonly used in blockchain technologies like Bitcoin due to its efficiency.  |
 
+## D. Elliptic Curve Encryption (1p)
+
+In this example, Bob and Alice create elliptic curve key pairs. Bob can encrypt a message for Alice with her public key, and she can decrypt it using her private key. The following code demonstrates this process:
+
+### Code Example:
+
+```python
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives import serialization
+import binascii
+import sys
+
+# Generate a private key using SECP256K1 elliptic curve
+private_key = ec.generate_private_key(ec.SECP256K1())
+
+# Extract and display the private key details
+vals = private_key.private_numbers()
+no_bits = vals.private_value.bit_length()
+print(f"Private key value: {vals.private_value}. Number of bits: {no_bits}")
+
+# Generate the public key based on the private key
+public_key = private_key.public_key()
+vals = public_key.public_numbers()
+enc_point = binascii.b2a_hex(vals.encode_point()).decode()
+
+# Display the public key in encoded point format
+print(f"\nPublic key encoded point: {enc_point}")
+print(f"x={enc_point[2:(len(enc_point)-2)//2+2]}")
+print(f"y={enc_point[(len(enc_point)-2)//2+2:]}")
+
+# Serialize the private key in PEM and DER formats
+pem = private_key.private_bytes(
+    encoding=serialization.Encoding.PEM,
+    format=serialization.PrivateFormat.PKCS8,
+    encryption_algorithm=serialization.NoEncryption()
+)
+
+der = private_key.private_bytes(
+    encoding=serialization.Encoding.DER,
+    format=serialization.PrivateFormat.PKCS8,
+    encryption_algorithm=serialization.NoEncryption()
+)
+
+# Display the private key in PEM and DER formats
+print("\nPrivate key (PEM):\n", pem.decode())
+print("Private key (DER):\n", binascii.b2a_hex(der))
+
+# Serialize the public key in PEM and DER formats
+pem = public_key.public_bytes(
+    encoding=serialization.Encoding.PEM,
+    format=serialization.PublicFormat.SubjectPublicKeyInfo
+)
+
+der = public_key.public_bytes(
+    encoding=serialization.Encoding.DER,
+    format=serialization.PublicFormat.SubjectPublicKeyInfo
+)
+
+# Display the public key in PEM and DER formats
+print("\nPublic key (PEM):\n", pem.decode())
+print("Public key (DER):\n", binascii.b2a_hex(der))
+
+
 
 
