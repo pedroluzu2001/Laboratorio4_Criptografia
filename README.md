@@ -256,7 +256,6 @@ What is the plaintext message that Bob has been sent:
 
  ``` Message: b'Python is your friend' ```
 
- # Lab 4: Asymmetric (Public) Key
 
 ## B OpenSSL (RSA) (1p)
 
@@ -264,108 +263,26 @@ We will use OpenSSL to perform the following:
 
 | No  | Description                                                                                                   | Result                                        |
 | --- | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| B.1 | First, we need to generate a key pair with:                                                                    |                                               |
-|     | ```bash                                                                                                        |
-|     | openssl genrsa -out private.pem 1024                                                                           |
-|     | ```                                                                                                            |
-|     | This file contains both the public and the private key.                                                        |                                               |
-|     | **Question**: What is the type of public key method used?                                                      |                                               |
-|     | **Question**: How long is the default key?                                                                     |                                               |
-|     | Use the following command to view the keys:                                                                    |                                               |
-|     | ```bash                                                                                                        |
-|     | cat private.pem                                                                                                |
-|     | ```                                                                                                            |
-| B.2 | Use the following command to view the output file:                                                             |                                               |
-|     | ```bash                                                                                                        |
-|     | cat private.pem                                                                                                |
-|     | ```                                                                                                            |
-|     | **Question**: What can be observed at the start and end of the file?                                            |                                               |
-| B.3 | Next, we view the RSA key pair:                                                                                |                                               |
-|     | ```bash                                                                                                        |
-|     | openssl rsa -in private.pem -text                                                                              |
-|     | ```                                                                                                            |
-|     | **Question**: What are the attributes of the key shown?                                                        |                                               |
-|     | **Question**: What is the number of bits in the public modulus?                                                |                                               |
-|     | **Question**: How many bits do the prime numbers have?                                                         |                                               |
-|     | **Question**: What is the value of `e`?                                                                        |                                               |
-| B.4 | Let's now secure the encrypted key with 128-bit AES:                                                           |                                               |
-|     | ```bash                                                                                                        |
-|     | openssl rsa -in private.pem -aes128 -out key3des.pem                                                           |
-|     | ```                                                                                                            |
-|     | **Question**: Why should you have a password on the usage of your private key?                                 |                                               |
-| B.5 | Next, we will export the public key:                                                                           |                                               |
-|     | ```bash                                                                                                        |
-|     | openssl rsa -in private.pem -out public.pem -outform PEM -pubout                                               |
-|     | ```                                                                                                            |
-|     | **Question**: View the output key. What does the header and footer of the file identify?                       |                                               |
-| B.6 | Now, create a file named `myfile.txt` and put a message into it. Next, encrypt it with your public key:        |                                               |
-|     | ```bash                                                                                                        |
-|     | openssl pkeyutl -encrypt -inkey public.pem -pubin -in myfile.txt -out file.bin                                 |
-|     | ```                                                                                                            |
-| B.7 | And then decrypt with your private key:                                                                        |                                               |
-|     | ```bash                                                                                                        |
-|     | openssl pkeyutl -decrypt -inkey private.pem -in file.bin -out decrypted.txt                                    |
-|     | ```                                                                                                            |
-|     | **Question**: What are the contents of `decrypted.txt`?                                                        |                                               |
-| B.8 | **Question**: What can you observe between these two commands for differing output formats:                    |                                               |
-|     | ```bash                                                                                                        |
-|     | openssl pkeyutl -encrypt -inkey public.pem -pubin -in myfile.txt -out file.bin                                 |
-|     | cat file.bin                                                                                                   |
-|     | openssl pkeyutl -encrypt -inkey public.pem -pubin -in myfile.txt -out file.bin -hexdump                        |
-|     | cat file.bin                                                                                                   |
-|     | ```                                                                                                            |
-|     | **Question**: What can you observe in the difference of the output files?                                      |                                               |
-
----
+| B.1 | First we need to generate a key pair with: `openssl genrsa -out private.pem 1024`<br>This file contains both the public and the private key.                           | **What is the type of public key method used?**<br> `RSA`<br>**How long is the default key?**<br>Use the following command to view the keys:<br>`cat private.pem` |
+| B.2 | Use the following command to view the output file: `cat private.pem`                                           | **What can be observed at the start and end of the file?** <br>At the beginning and end of the file, we can see the header and footer markers that define the boundaries of the private key. These markers are characteristic of the PEM (Privacy Enhanced Mail) format, which is commonly used to encode cryptographic objects such as private keys and certificates in a human-readable format.                  |
+| B.3 | Next we view the RSA key pair: `openssl rsa -in private.pem -text`                                             | **Which are the attributes of the key shown?** The private key consists of several key components: <br>- **Modulus (n)**: A large number, 1024 bits long, which is part of the RSA key. <br>- **Public Exponent (e)**: The public exponent, typically 65537 (0x10001). <br>- **Private Exponent (d)**: Used in RSA decryption. <br>- **Prime1 and Prime2**: The two prime numbers used to calculate the modulus (n). <br>- **Exponent1 and Exponent2**: Values related to the Chinese Remainder Theorem (CRT) optimization in RSA. <br>- **Coefficient**: Another component used in the CRT optimization. <br>Although Prime1, Prime2, Exponent1, Exponent2, and the Coefficient are not explicitly shown in the output, they are essential attributes of the private key <br>**What is the number of bits in the public modulus?**<br> 1024<br>**How many bits do the prime numbers have?**<br>512<br>**What is the value of `e`?**<br>65537(0x10001) |
+| B.4 | Let's now secure the encrypted key with 128-bit AES: `openssl rsa -in private.pem -aes128 -out key3des.pem`     | **Why should you have a password on the usage of your private key?**<br>AES-128 is a symmetric encryption algorithm that facilitates the encryption and decryption of data. In this instance, it is specifically employed to encrypt the private key to safeguard it from unauthorized access. The password serves as an extra layer of security, acting as an encryption key that protects the private key.          |
+| B.5 | Next, we will export the public key: `openssl rsa -in private.pem -out public.pem -outform PEM -pubout`        | **View the output key. What does the header and footer of the file identify?**<br>-----BEGIN PUBLIC KEY----- And-----END PUBLIC KEY---- |
 
 ## C OpenSSL (ECC) (1p)
 
 Elliptic Curve Cryptography (ECC) is now used extensively within public key signing and key exchange, including with Bitcoin, Ethereum, Tor, and IoT applications. In this part of the lab, we will use OpenSSL to create an EC key pair. We will generate a random 256-bit private key (priv) and then generate a public key point (which is priv multiplied by G). This uses a generator point (G), which is an (x, y) point on the selected elliptic curve.
 
+## C OpenSSL (ECC)
+
 | No  | Description                                                                                                   | Result                                        |
 | --- | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| C.1 | First, we need to generate a private key with:                                                                 |                                               |
-|     | ```bash                                                                                                        |
-|     | openssl ecparam -name secp256k1 -genkey -out priv.pem                                                          |
-|     | ```                                                                                                            |
-|     | The file will only contain the private key, as we can generate the public key from this private key.           |                                               |
-|     | Use `cat priv.pem` to view your key.                                                                           |                                               |
-|     | **Question**: Can you view your key?                                                                           |                                               |
-| C.2 | We can view the details of the ECC parameters used with:                                                       |                                               |
-|     | ```bash                                                                                                        |
-|     | openssl ecparam -in priv.pem -text -param_enc explicit -noout                                                  |
-|     | ```                                                                                                            |
-|     | **Question**: Outline these values:                                                                            |                                               |
-|     | - Prime (last two bytes):                                                                                      |                                               |
-|     | - A:                                                                                                           |                                               |
-|     | - B:                                                                                                           |                                               |
-|     | - Generator (last two bytes):                                                                                  |                                               |
-|     | - Order (last two bytes):                                                                                      |                                               |
-| C.3 | Now, generate your public key based on your private key with:                                                  |                                               |
-|     | ```bash                                                                                                        |
-|     | openssl ec -in priv.pem -text -noout                                                                           |
-|     | ```                                                                                                            |
-|     | **Question**: How many bits and bytes does your private key have?                                              |                                               |
-|     | **Question**: How many bits and bytes does your public key have (note the `04` is not part of the EC point)?   |                                               |
-|     | **Question**: What is the ECC method that you have used?                                                       |                                               |
-| C.4 | We need to generate a private key with:                                                                        |                                               |
-|     | ```bash                                                                                                        |
-|     | openssl ecparam -list_curves                                                                                   |
-|     | ```                                                                                                            |
-|     | **Question**: Outline three curves supported.                                                                  |                                               |
-| C.5 | Let’s select two other curves:                                                                                 |                                               |
-|     | ```bash                                                                                                        |
-|     | openssl ecparam -name secp128r1 -genkey -out priv.pem                                                          |
-|     | openssl ecparam -in priv.pem -text -param_enc explicit -noout                                                  |
-|     | openssl ecparam -name secp521r1 -genkey -out priv.pem                                                          |
-|     | openssl ecparam -in priv.pem -text -param_enc explicit -noout                                                  |
-|     | ```                                                                                                            |
-|     | **Question**: How do `secp128k1`, `secp256k1`, and `secp521r1` differ in the parameters used?                  |                                               |
-|     | **Question**: Identify the length of the prime number used, and the size of the base point (G) and the prime number. How does the name of the curve relate to the prime number size? |
-
-If you want to see an example of ECC, try here:  
-[https://asecuritysite.com/encryption/ecc](https://asecuritysite.com/encryption/ecc)
-
+| C.1 | First we need to generate a private key with:<br> ```bash<br> openssl ecparam -name secp256k1 -genkey -out priv.pem<br> ```<br> The file will only contain the private key, as we can generate the public key from this private key.<br> Now use `cat priv.pem` to view your key. | Can you view your key?<br> `Yes` |
+| C.2 | We can view the details of the ECC parameters used with:<br> ```bash<br> openssl ecparam -in priv.pem -text -param_enc explicit -noout<br> ``` | Outline these values:<br> - Prime (last two bytes):<br> - A: 0 <br> - B: 7(0x7 )<br> - Generator (last two bytes):0xb8, 184 in decimal<br> - Order (last two bytes):0x41, 65 in decimal
+<br> |
+| C.3 | Now generate your public key based on your private key with:<br> ```bash<br> openssl ec -in priv.pem -text -noout<br> ``` | How many bits and bytes does your private key have?<br> How many bits and bytes does your public key have (Note the `04` is not part of the elliptic curve point)?<br> What is the ECC method that you have used? |
+| C.4 | First we need to generate a private key with:<br> ```bash<br> openssl ecparam -list_curves<br> ``` | Outline three curves supported:<br> |
+| C.5 | Let's select two other curves:<br> ```bash<br> openssl ecparam -name secp128r1 -genkey -out priv.pem<br> openssl ecparam -in priv.pem -text -param_enc explicit -noout<br> openssl ecparam -name secp521r1 -genkey -out priv.pem<br> openssl ecparam -in priv.pem -text -param_enc explicit -noout<br> ``` | How do `secp128r1`, `secp256k1`, and `secp521r1` differ in the parameters used?<br> Perhaps identify the length of the prime number used, and the size of the base point \( G \) and the prime number. How does the name of the curve relate to the prime number size? |
 
 
 
