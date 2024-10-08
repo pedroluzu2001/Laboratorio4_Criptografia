@@ -449,6 +449,34 @@ make sure that the cipher will work:
 ![image](https://github.com/user-attachments/assets/e2aede3d-3108-46ad-b7e9-0b29ba51f450) ![image](https://github.com/user-attachments/assets/205f7113-0055-40ac-b767-91587170ff1c)  ![image](https://github.com/user-attachments/assets/a03fc521-6ada-4048-a464-3895a330abc0)
 
 
+### E.3 In the RSA method, we have a value of e, and then determine d from (d.e) (modPHI)=1. But how do we use code to determine d? Well we can use the Euclideanalgorithm. The code for this is given at:
+
+https://asecuritysite.com/encryption/inversemod
+
+Using the code, can you determine the following:
+
+```
+Inverse of 53 (mod 120) = 77
+Inverse of 65537 (mod 1034776851837418226012406113933120080) = 568411228254986589811047501435713
+```
+
+![image](https://github.com/user-attachments/assets/cb16948b-ab2e-4735-806f-0ff7ead68e3a)
+
+### E.3 Run the following code and observe the output of the keys. If you now change the key generation key from ‘PEM’ to ‘DER’, how does the output change:
+
+```python
+from Crypto.PublicKey import RSA
+key = RSA.generate(2048)
+binPrivKey = key.exportKey('PEM')
+binPubKey = key.publickey().exportKey('PEM')
+print (binPrivKey)
+print (binPubKey)
+```
+The main difference between DER and PEM formats is their encoding. DER is a binary format, more compact and suited for machine-readable data, without headers or footers. PEM is a text-based format, with base64-encoded content and headers/footer lines.
+
+# F PGP(1p)
+
+
 
 
 
