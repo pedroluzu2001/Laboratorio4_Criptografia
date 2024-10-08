@@ -583,6 +583,67 @@ In this challenge, you should install a random number generator on your system w
 |6|Next send your public key to Bill (w.buchanan@napier.ac.uk), and ask for an encrypted message from him||
 
 
+## G SSH Key Pairs
+### G.1 On your VM, go into the ~/.ssh folder. Now generate your SSH keys:
+``` ssh-keygen -t rsa -C "your email address" ```
+The public key should look like this:
+```
+ssh-rsa
+AAAAB3NzaC1yc2EAAAADAQABAAABAQDLrriuNYTyWuC1IW7H6yea3hMV+rm029m2f6IddtlImHrOXjNwYyt4Elkkc7AzO
+y899C3gpx0kJK45k/CLbPnrHvkLvtQ0AbzWEQpOKxI+tW06PcqJNmTB8ITRLqIFQ++ZanjHWMw2Odew/514y1dQ8dccCO
+uzeGhL2Lq9dtfhSxx+1cBLcyoSh/lQcs1HpXtpwU8JMxWJl409RQOVn3gOusp/P/0R8mz/RWkmsFsyDRLgQK+xtQxbpbo
+dpnz5lIOPWn5LnT0si7eHmL3WikTyg+QLZ3D3m44NCeNb+bOJbfaQ2ZB+lv8C3OxylxSp2sxzPZMbrZWqGSLPjgDiFIBL
+w.buchanan@napier.ac.uk
+```
+![image](https://github.com/user-attachments/assets/871b6805-0393-4430-be7f-5d8b85d35cf8)
+
+```
+View the private key. What is the DEK-Info part, and how would it be used to protect the
+key, and what information does it contain?
+-----BEGIN OPENSSH PRIVATE KEY-----
+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
+-----END OPENSSH PRIVATE KEY-----
+
+In this case, we do not have DEK-info
+
+```
+
+
 
 
 
