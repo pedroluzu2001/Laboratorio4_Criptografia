@@ -474,7 +474,115 @@ print (binPubKey)
 ```
 The main difference between DER and PEM formats is their encoding. DER is a binary format, more compact and suited for machine-readable data, without headers or footers. PEM is a text-based format, with base64-encoded content and headers/footer lines.
 
-# F PGP(1p)
+## F PGP(1p)
+### F.1  The following is a PGP key pair. Using https://asecuritysite.com/encryption/pgp, can you determine the owner of the keys (or use gpg mykey.key):
+
+```
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: OpenPGP.js v4.4.5
+Comment: https://openpgpjs.org
+xk0EXEOYvQECAIpLP8wfLxzgcolMpwgzcUzTlH0icggOIyuQKsHM4XNPugzU
+X0NeaawrJhfi+f8hDRojJ5Fv8jBI0m/KwFMNTT8AEQEAAc0UYmlsbCA8Ymls
+bEBob21lLmNvbT7CdQQQAQgAHwUCXEOYvQYLCQcIAwIEFQgKAgMWAgECGQEC
+GwMCHgEACgkQoNsXEDYt2ZjkTAH/b6+pDfQLi6zg/Y0tHS5PPRv1323cwoay
+vMcPjnWq+VfiNyXzY+UJKR1PXskzDvHMLOyVpUcjle5ChyT5LOw/ZM5NBFxD
+mL0BAgDYlTsT06vVQxu3jmfLzKMAr4kLqqIuFFRCapRuHYLOjw1gJZS9p0bF
+S0qS8zMEGpN9QZxkG8YEcH3gHxlrvALtABEBAAHCXwQYAQgACQUCXEOYvQIb
+DAAKCRCg2xcQNi3ZmMAGAf9w/XazfELDG1W35l2zw12rKwM7rK97aFrtxz5W
+XwA/5gqoVP0iQxklb9qpX7RVd6rLKu7zoX7F+sQod1sCWrMw
+=cXT5
+-----END PGP PUBLIC KEY BLOCK-----
+-----BEGIN PGP PRIVATE KEY BLOCK-----
+Version: OpenPGP.js v4.4.5
+Comment: https://openpgpjs.org
+xcBmBFxDmL0BAgCKSz/MHy8c4HKJTKcIM3FM05R9InIIDiMrkCrBzOFzT7oM
+1F9DXmmsKyYX4vn/IQ0aIyeRb/IwSNJvysBTDU0/ABEBAAH+CQMIBNTT/OPv
+TJzgvF+fLOsLsNYP64QfNHav5O744y0MLV/EZT3gsBwO9v4XF2SsZj6+EHbk
+O9gWi31BAIDgSaDsJYf7xPOhp8iEWWwrUkC+jlGpdTsGDJpeYMIsVVv8Ycam
+0g7MSRsL+dYQauIgtVb3dloLMPtuL59nVAYuIgD8HXyaH2vsEgSZSQn0kfvF
++dWeqJxwFM/uX5PVKcuYsroJFBEO1zas4ERfxbbwnsQgNHpjdIpueHx6/4EO
+b1kmhOd6UT7BamubY7bcma1PBSv8PH31Jt8SzRRiaWxsIDxiaWxsQGhvbWUu
+Y29tPsJ1BBABCAAfBQJcQ5i9BgsJBwgDAgQVCAoCAxYCAQIZAQIbAwIeAQAK
+CRCg2xcQNi3ZmORMAf9vr6kN9AuLrOD9jS0dLk89G/XfbdzChrK8xw+Odar5
+V+I3JfNj5QkpHU9eyTMO8cws7JWlRyOV7kKHJPks7D9kx8BmBFxDmL0BAgDY
+lTsT06vVQxu3jmfLzKMAr4kLqqIuFFRCapRuHYLOjw1gJZS9p0bFS0qS8zME
+GpN9QZxkG8YEcH3gHxlrvALtABEBAAH+CQMI2Gyk+BqVOgzgZX3C80JRLBRM
+T4sLCHOUGlwaspe+qatOVjeEuxA5DuSs0bVMrw7mJYQZLtjNkFAT92lSwfxY
+gavS/bILlw3QGA0CT5mqijKr0nurKkekKBDSGjkjVbIoPLMYHfepPOju1322
+Nw4V3JQO4LBh/sdgGbRnwW3LhHEK4Qe70cuiert8C+S5xfG+T5RWADi5HR8u
+UTyH8x1h0ZrOF7K0Wq4UcNvrUm6c35H6lClC4Zaar4JSN8fZPqVKLlHTVcL9
+lpDzXxqxKjS05KXXZBh5wl8EGAEIAAkFAlxDmL0CGwwACgkQoNsXEDYt2ZjA
+BgH/cP12s3xCwxtVt+Zds8NdqysDO6yve2ha7cc+Vl8AP+YKqFT9IkMZJW/a
+qV+0VXeqyyru86F+xfrEKHdbAlqzMA==
+=5NaF
+-----END PGP PRIVATE KEY BLOCK-----
+```
+```
+Owner is bill: <bill@home.com> 
+```
+
+### F.2 Using the Node.js code at the following link, generate a key:
+https://asecuritysite.com/encryption/openpgp
+Note: to add opengpg, you can install the required library with:
+``` npm install openpgp ```
+```
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: OpenPGP.js v4.10.10
+Comment: https://openpgpjs.org
+xk0EZSNWRQECAN0/s+5JBaRXGhzBWrkWAdOHqCRJRkWmwQda5kfXbKmZntQw
+XlsJsRA+Fkb5YvqR1tiMc0R0WHba+n3AFv8uqYEAEQEAAc0UYmlsbCA8Ymls
+24
+bEBob21lLmNvbT7CjQQQAQgAIAUCZSNWRQYLCQcIAwIEFQgKAgQWAgEAAhkB
+AhsDAh4BACEJEBmNmSDun6/BFiEEpm85dEqei3uJtfOoGY2ZIO6fr8Eb4QH/
+UuDxEX3YbzPAMQPHaByE0ZdnzsY6R55upm8rvm2k6S4qhPDRkKADqKVNoz2F
+DMWge0CFY+g9xXyWJ5AzCwJLuM5NBGUjVkUBAgCsu7bBZmj0B86aYY5rbWWc
+YE/S5lslGO31P2sSywslcSdssLYxbLxULYC3m2Q46TRE9lE6MVU0Zxmd6Uvt
+vsz/ABEBAAHCdgQYAQgACQUCZSNWRQIbDAAhCRAZjZkg7p+vwRYhBKZvOXRK
+not7ibXzqBmNmSDun6/BaZ8B/0yta7ukCqjLOLV6XiBZbghbqrNLl9mE8aAU
+HLcAAw4HY4uItsI8KneA+yw+O6xVjfvNzCZBbZH9mQtfDsqe4hU=
+=nZYr
+-----END PGP PUBLIC KEY BLOCK-----
+```
+```
+-----BEGIN PGP PRIVATE KEY BLOCK-----
+Version: OpenPGP.js v4.10.10
+Comment: https://openpgpjs.org
+xcBmBGUjVkUBAgDdP7PuSQWkVxocwVq5FgHTh6gkSUZFpsEHWuZH12ypmZ7U
+MF5bCbEQPhZG+WL6kdbYjHNEdFh22vp9wBb/LqmBABEBAAH+CQMIRU6eehxz
+EfbghrKbsn8iCbFLuVsJPM3rJ2QV0IyApMbLR/82o/9d8e86UpUhnpRUwUZ1
+znQwXTvYz+fTBStZqo53tCrs+wj/eAL51r4LvhOm1aWhfW4KpJdbk8RqW2OY
+QRZgf6aC3bX8vFOBypi00oBHGxHYfyXulNl9K3t3deNskzlrZayseECp5J1T
+RyJq1ahxex1DDXzhHvobjjEkgf4AJExATa8ax2qS6RPxvbDqk22yVE0p9LC7
+cS87Medj6qW/bPVf1eKVyMXE8VeWx3UifgFhzRRiaWxsIDxiaWxsQGhvbWUu
+Y29tPsKNBBABCAAgBQJlI1ZFBgsJBwgDAgQVCAoCBBYCAQACGQECGwMCHgEA
+IQkQGY2ZIO6fr8EWIQSmbzl0Sp6Le4m186gZjZkg7p+vwRvhAf9S4PERfdhv
+M8AxA8doHITRl2fOxjpHnm6mbyu+baTpLiqE8NGQoAOopU2jPYUMxaB7QIVj
+6D3FfJYnkDMLAku4x8BmBGUjVkUBAgCsu7bBZmj0B86aYY5rbWWcYE/S5lsl
+GO31P2sSywslcSdssLYxbLxULYC3m2Q46TRE9lE6MVU0Zxmd6Uvtvsz/ABEB
+AAH+CQMIhBwfbrjEpj/gNlxfKOVARE4zSIlFvKlOeL9E2XSeyS3homgsojVO
+bv9S58RQ2FzeRtCnwTZVJXCWfAK3lFYKnHBmsDMXvgIP8dcA4FE9EPsZQy3+
+rGCLtSk2H005Poi/ZlMtMpUomyggrfCo3lHDgFpqe/R28MOPkCeJJO+oAnZg
+ZsnAb+d5EUf273uS56Gd0dCKJSxdei533XQiPIvIhLizIW90GATMVxK7W6ai
+zetWA5y8Kbvlro7W4wMK9B+HdulxXb3d8Q1Ivks1FKb9SQJn0Lm5wnYEGAEI
+AAkFAmUjVkUCGwwAIQkQGY2ZIO6fr8EWIQSmbzl0Sp6Le4m186gZjZkg7p+v
+wWmfAf9MrWu7pAqoyzi1el4gWW4IW6qzS5fZhPGgFBy3AAMOB2OLiLbCPCp3
+gPssPjusVY37zcwmQW2R/ZkLXw7KnuIV
+=94uQ
+-----END PGP PRIVATE KEY BLOCK-----
+```
+### F.3 An important element in data loss prevention is encrypted emails. In this part of the lab we will use an open source standard: PGP.
+In this challenge, you should install a random number generator on your system with:
+```sudo apt-get install rng-tools ```
+| No  | Description | Result |
+| --- | ----------- | ------ |
+| 1   | - Create a key pair with (RSA and 2,048-bit keys):<br> `gpg --gen-key`<br> Now export your public key using the command:<br> `gpg --export -a "Your name" > mypub.key`<br> Now export your private key using the command:<br> `gpg --export-secret-key -a "Your name" > mipriv.key` | - How is the randomness generated?<br> - Outline the contents of your key file: |
+| 2   | - Now send your lab partner your public key in the contents of an email, and ask them to import it onto their key ring (if you are doing this on your own, create another set of keys to simulate another user, or use Bill's public key - which is defined at [http://asecuritysite.com/public.txt](http://asecuritysite.com/public.txt) and send the email to him):<br> `gpg --import theirpublickey.key`<br> Now list your keys with:<br> `gpg --list-keys` | - Which keys are stored on your key ring and what details do they have: |
+| 3   | - Create a text file, and save it. Next, encrypt the file with their public key:<br> `gpg -e -a -u "Your Name" -r "Your Lab Partner Name" he11o.txt` | - What does the `-a` option do?<br> - What does the `-r` option do?<br> - What does the `-u` option do?<br> - Which file does it produce and outline the format of its contents: |
+|4|Send your encrypted file in an email to your lab partner, and get one back from them.<br>Now create a file (such as myfile.asc) and decrypt the email using the public key received from them with:<br>gpg –d myfile.asc > myfile.txt|Can you decrypt the message:|
+
+
+
+
 
 
 
