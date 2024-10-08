@@ -345,6 +345,118 @@ der = public_key.public_bytes(
 print("\nPublic key (PEM):\n", pem.decode())
 print("Public key (DER):\n", binascii.b2a_hex(der))
 
+```
+```
+Verify that the program runs, and observe the difference between the size of the public key
+and the private key:
+Private key size: 253 bits <br>
+Public key size (in hexadecimal format): 512 bits
+As observed, the public key is significantly larger in bits compared to the private key. This is typical in elliptic curve cryptographic systems, where the public key contains additional information that allows for signature verification and other cryptographic calculations. In contrast, the private key is smaller as it is only used to generate signatures and does not need to contain extra information.
+```
+
+### D.2 Let’s say we create an elliptic curve with y^2 = x^3 + 7, and with a prime number of 89 (y^2 = x^3 + 7 (mod 89)), generate the first five (x,y) points for the finite field elliptic curve. You can use the Python code at the following to generate them. https://asecuritysite.com/encryption/ecc_points_real (or for simpler code you can use https://asecuritysite.com/encryption/ecc_points3)
+```
+First five points:
+(1, 39), (1, 50), (3, 52), (3, 37), (4, 31)
+```
+
+## E RSA
+
+### E.1 A simple RSA program to encrypt and decrypt with RSA is given next. Prove its operation
+``` python 
+import rsa
+(bob_pub, bob_priv) = rsa.newkeys(512)
+7
+msg='Here is my message'
+ciphertext = rsa.encrypt(msg.encode(), bob_pub)
+message = rsa.decrypt(ciphertext, bob_priv)
+print(message.decode('utf8'))
+```
+Now add the lines following lines after the creation of the keys:
+
+``` python
+print (bob_pub)
+print (bob_priv)
+```
+
+```
+Can you identify what each of the elements of the public key (e,N), the private key (d,N), and 
+the two prime number (p and q) are (if the numbers are long, just add the first few numbers of 
+the value):
+(e, N): Exponent e: 65537 AND Modulus N: 732417632585360785719009700...
+• Private Exponent d: 65537
+• Modulus N: 73241763258536078571900...
+• First Prime Number p: 53416185642739962883…
+• Second Prime Number q: 69830779611859413010…
+
+When you identity the two prime numbers (p and q), with Python, can you prove that when 
+they are multiplied together they result in the modulus value (N):
+```
+```
+P * q es igual a N? True
+Proven YES
+```
+### E.2  We will follow a basic RSA process. If you are struggling here, have a look at thefollowing page:
+
+https://asecuritysite.com/encryption/rsa
+First, pick two prime numbers:
+
+```
+p=2
+q=7
+```
+Now calculate N (p.q) and PHI [(p-1).(q-1)]:
+```
+N= 14
+PHI= 6
+```
+Now pick a value of e which does not share a factor with PHI [gcd(PHI,e)=1]:
+
+``` e=5 ```
+
+Now select a value of d, so that (e.d) (mod PHI) = 1
+``` d=5 ```
+
+Now for a message of M=5, calculate the cipher as:
+```  C = Me(mod N) = 5^5(mod 14) = 3 ```
+
+Now decrypt your ciphertext with:
+``` M = 5 ```
+
+Did you get the value of your message back (M=5)? If not, you have made a mistake, so go back and check. Now run the following code and prove that the decrypted cipher is the same as the message:
+
+```python
+import libnum
+p=11
+q=3
+N=p*q
+PHI=(p-1)*(q-1)
+e=3
+d= libnum.invmod(e,PHI)
+print (e,N)
+print (d,N)
+M=4
+print ("\nMessage:",M)
+cipher = M**e % N
+print ("Cipher:",cipher)
+message = cipher**d % N
+print ("Message:",message)
+```
+```
+Select three more examples with different values of p and q, and then select e in order to 
+make sure that the cipher will work:
+```
+![image](https://github.com/user-attachments/assets/e2aede3d-3108-46ad-b7e9-0b29ba51f450) ![image](https://github.com/user-attachments/assets/205f7113-0055-40ac-b767-91587170ff1c)  ![image](https://github.com/user-attachments/assets/a03fc521-6ada-4048-a464-3895a330abc0)
+
+
+
+
+
+
+
+
+
+
 
 
 
