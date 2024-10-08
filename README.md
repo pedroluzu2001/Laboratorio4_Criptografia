@@ -642,9 +642,56 @@ f9c6EzPvwacfQfAAAAF3BlZHJpbmlhbmRyZXNAZ21haWwuY29tAQID
 In this case, we do not have DEK-info
 
 ```
+## H Additional (1p)
+The following is code which performs RSA key generation, and the encryption and
+decryption of a message (https://asecuritysite.com/encryption/rsa_example):
+
+```python
+from Crypto.PublicKey import RSA
+from Crypto.Util import asn1
+from base64 import b64encode
+from Crypto.Cipher import PKCS1_OAEP
+import sys
+msg = "hello..."
+if (len(sys.argv)>1):
+msg=str(sys.argv[1])
+key = RSA.generate(1024)
+binPrivKey = key.exportKey('PEM')
+binPubKey = key.publickey().exportKey('PEM')
+print ("====Private key===")
+print (binPrivKey)
+print
+print ("====Public key===")
+print (binPubKey)
+privKeyObj = RSA.importKey(binPrivKey)
+pubKeyObj = RSA.importKey(binPubKey)
+cipher = PKCS1_OAEP.new(pubKeyObj)
+ciphertext = cipher.encrypt(msg.encode())
+print
+print ("====Ciphertext===")
+print (b64encode(ciphertext))
+cipher = PKCS1_OAEP.new(privKeyObj)
+message = cipher.decrypt(ciphertext)
+print
+print ("====Decrypted===")
+print ("Message:",message)
+```
+Can you decrypt this:
+```
+ fIVuuWFLVANs9MjatXbIbtH7/n0dBpDirXKi82jZovXS/krxy43cP0J9jlNz4dqxLgdiqtRe1AcymX06JUo1SrcqDEh3l
+QxoU1KUvV7jG9GE3pSxHq4dQlcWdHz95b9go6QYbe/5S/uJgolR+S9qaDE8tXYysP8FeXIPd0dXxHo=
+```
+
+Decrypted message:
+``` help me... ```
 
 
+## J Reflective question. (1p)
 
+### In ECC, we use a 256-bit private key. This is used to generate the key for signingBitcoin transactions. Do you think that a 256-bit key is largest enough? If we use a cracker what performs 1 Tera keys per second, will someone be able to determine ourprivate key?
+```
+A 256-bit private key in elliptic curve cryptography (ECC) provides strong security against modern cryptographic attacks, including brute-force attempts. The vast key space of 2^256 possibilities (around 1.1579 x 10^77) makes it practically impossible to guess the key, even with powerful supercomputers. For instance, a machine capable of performing 1 trillion operations per second would still take longer than the age of the universe to try every possible key. In short, a 256-bit ECC key is highly secure against brute-force attacks, as long as the cryptographic parameters are robust and the algorithm is implemented correctly.
+```
 
 
 
